@@ -27,19 +27,20 @@ class ApiClient:
 
     def _request(
         self,
+        url: str,
         method: str,
         data: dict = None,
         params: dict = None,
     ) -> requests.Response:
         response = requests.request(
-            method,
-            self.url,
+            method=method,
+            url=url,
             headers=self.headers,
             data=data,
             params=params,
         )
         self._handle_response(response)
-        return response
+        return response.json()
 
     def get(
         self,
