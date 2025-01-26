@@ -1,5 +1,6 @@
 import requests
 from urllib.parse import urljoin
+from typing import Optional
 
 
 class ApiClient:
@@ -15,7 +16,7 @@ class ApiClient:
     @staticmethod
     def _handle_response(
         response: requests.Response,
-    ):
+    ) -> None:
         if not response.ok:
             raise Exception(f"Error: {response.status_code}: {response.text}")
 
@@ -29,9 +30,9 @@ class ApiClient:
         self,
         url: str,
         method: str,
-        data: dict = None,
-        params: dict = None,
-    ) -> requests.Response:
+        data: Optional[dict] = None,
+        params: Optional[dict] = None,
+    ) -> dict:
         response = requests.request(
             method=method,
             url=url,
@@ -45,11 +46,11 @@ class ApiClient:
     def get(
         self,
         path: str,
-        params: dict = None,
-    ) -> requests.Response:
+        params: Optional[dict] = None,
+    ) -> dict:
         response = self._request(
             url=self._make_url(path),
-            method='GET',
+            method="GET",
             params=params,
         )
         return response
@@ -57,13 +58,13 @@ class ApiClient:
     def post(
         self,
         path: str,
-        params: dict = None,
-        data: dict = None,
-        json: dict = None,
-    ) -> requests.Response:
+        params: Optional[dict] = None,
+        data: Optional[dict] = None,
+        json: Optional[dict] = None,
+    ) -> dict:
         response = self._request(
             url=self._make_url(path),
-            method='POST',
+            method="POST",
             params=params,
             data=data,
             json=json,
